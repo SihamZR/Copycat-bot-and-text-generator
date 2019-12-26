@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
+{% block title %}Generate Tweets{% endblock %}
 
 {% block header %}
-  <h1>{% block title %}Copy cat{% endblock %}</h1>
+<center><h1 class="text-white  my-3">Generate Tweets</h1></center>
 {% endblock %}
 
 {% block content %}
-<h2>Write a seed word and tweets will be generated based on it</h2>
-<div class="row rounded-lg" style="overflow: hidden;">
-    <div class="col-md-6 bg-dark py-3 text-white-50">
+<div class="row rounded-lg my-3" style="overflow: hidden;">
+    <div class="col-md-4 offset-md-1 bg-dark py-3 text-white-50">
+        <h2>Write a seed word and tweets will be generated based on it</h2>
         <form>
             <div class="row">
                 <div class="col-md-12">
@@ -31,10 +32,9 @@
             </div>
         </form>
     </div>
-    <div class="col-md-6 color-black p-3 border-left" id="rightDiv">
+    <div class="col-md-4  offset-md-2 color-black p-3 border-left" id="rightDiv">
         <img id="loadingImg" src="{{ url_for('static', filename='imgs/loading.gif') }}" alt="" style="max-height: 100%;max-width: 100%;">
-        <div id="sampleHolder"  style="height: 100%;width: 100%;">
-
+        <div id="sampleHolder" style="height: 100%;width: 100%;">
         </div>
     </div>
 </div>

@@ -31,11 +31,11 @@ def create_app(test_config=None):
     #Index 
     @app.route('/')
     def index():
-        return render_template("index.html")
+        return render_template("index.html",value='0')
 
     @app.route('/copycat')
     def copycat():
-        return render_template("copycat.html")
+        return render_template("copycat.html",value='1')
 
     @app.route('/generateCC', methods=['POST'])
     def generateCC():
@@ -48,7 +48,7 @@ def create_app(test_config=None):
 
     @app.route('/contgen')
     def contgen():
-        return render_template("generate.html")
+        return render_template("generate.html",value='2')
 
     @app.route('/generate', methods=['POST'])
     def generate():

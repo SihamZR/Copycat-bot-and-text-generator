@@ -9,7 +9,10 @@
 #sticky-footer {
     flex-shrink: none;
 }
-
+h1 a{
+    color:white;
+    text-align: center;
+}
 .color-1{
     background-color: #9a1750;
 }
@@ -33,5 +36,5 @@
   
 body {
     background: #e3e2df;
-    /*background: linear-gradient(to right, #9a1750, #fd5a93);*/
+    background: linear-gradient(to left, seagreen, rgb(152, 185, 255));
 }

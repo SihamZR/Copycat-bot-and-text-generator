@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}Posts{% endblock %}
+{% block title %}Generate Text{% endblock %}
 
 {% block header %}
-<center><h1>Generate text</h1></center>
+<center><h1 class="text-white my-3">Generate Content</h1></center>
 {% endblock %}
 
 {% block content %}
-<h2>Insert a promt and the model will expand on it</h2>
 <div class="row rounded-lg" style="overflow: hidden;">
-    <div class="col-md-6 bg-dark py-3">
+    <div class="col-md-4 offset-md-1 rounded-lg bg-dark py-3 text-white-50">
+        <h2>Insert a promt and the model will expand on it</h2>
         <form>
             <div class="row">
                 <div class="col-md-12">
@@ -24,11 +24,11 @@
             </div>
         </form>
     </div>
-    <div class="col-md-6 color-black p-3 border-left" id="rightDiv">
+    <div class="col-md-4 offset-md-2 rounded-lg color-black  border-left" id="rightDiv">
         <img id="loadingImg" src="{{ url_for('static', filename='imgs/loading.gif') }}" alt="" style="max-height: 100%;max-width: 100%;">
-        <div id="sampleHolder"  style="height: 100%;width: 100%;">
-
+        <div id="sampleHolder" class="p-3" style=" height: 100%;width: 100%;">
         </div>
+            
     </div>
 </div>
 {% endblock %}
@@ -39,6 +39,7 @@ $('#loadingImg').hide()
 function getGeneratedText(event)
 {
     event.preventDefault();
+    $('#sampleHolder').text("")
     var summary = $('#sumText').val()
     
     $('#loadingImg').show();

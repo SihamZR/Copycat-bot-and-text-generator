@@ -20,14 +20,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item {% if value=='0' %} active {% endif %}">
+                    
+                    <a class="nav-link" href="/">Home </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('contgen') }}">Content generation</a>
+                <li class="nav-item {% if value=='2' %} active {% endif %}">
+                    <a class="nav-link" href="{{ url_for('contgen') }}">Content Generation</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('copycat') }}">Tweet gen</a>
+                <li class="nav-item {% if value=='1' %} active {% endif %}">
+                    <a class="nav-link" href="{{ url_for('copycat') }}">Tweet Generation</a>
                 </li>
             </ul>
         </div>
@@ -35,17 +36,10 @@
 
     {% block header %}{% endblock %}
 
-    <div class="container">
+    <div class="container-fluid">
         {% block content %}{% endblock %}
     </div>
 
-    <!-- Footer -->
-    <footer id="sticky-footer" class="py-4 color-black text-white-50" style="position: absolute; bottom: 0px;width:100%">
-        <div class="container text-center">
-            <small>Copyright &copy; Your Website</small>
-        </div>
-    </footer>
-    <!-- Footer -->
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% block javascript %}{% endblock %}
