@@ -1,0 +1,37 @@
+.bg-dark label{
+    color:white;
+}
+
+#page-content {
+    flex: 1 0 auto;
+}
+
+#sticky-footer {
+    flex-shrink: none;
+}
+
+.color-1{
+    background-color: #9a1750;
+}
+.color-2{
+    background-color: #ee4c7c;
+}
+.color-3{
+    background-color: #5d001e;
+}
+.color-4{
+    background-color: #e3e2df;
+}
+.color-black{
+    background-color: #000;
+    color:white;
+}
+.color-black div ul li a :hover{
+    color:#9a1750;
+}
+  /* Other Classes for Page Styling */
+  
+body {
+    background: #e3e2df;
+    /*background: linear-gradient(to right, #9a1750, #fd5a93);*/
+}

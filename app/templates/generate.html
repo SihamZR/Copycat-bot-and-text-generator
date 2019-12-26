@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block header %}
+<center><h1>Generate text</h1></center>
+{% endblock %}
+
+{% block content %}
+<h2>Insert a promt and the model will expand on it</h2>
+<div class="row rounded-lg" style="overflow: hidden;">
+    <div class="col-md-6 bg-dark py-3">
+        <form>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="summary">Summary</label>
+                </div>
+                <div class="col-md-12">
+                    <textarea id="sumText" cols="40" rows="15" class="form-control"></textarea>
+                </div>
+                <div class="col-md-12 py-2">
+                    <button class="btn btn-primary" onclick="getGeneratedText(event)">Generate</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6 color-black p-3 border-left" id="rightDiv">
+        <img id="loadingImg" src="{{ url_for('static', filename='imgs/loading.gif') }}" alt="" style="max-height: 100%;max-width: 100%;">
+        <div id="sampleHolder"  style="height: 100%;width: 100%;">
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript%}
+<script>
+$('#loadingImg').hide()
+function getGeneratedText(event)
+{
+    event.preventDefault();
+    var summary = $('#sumText').val()
+    
+    $('#loadingImg').show();
+    $('#rightDiv').css('background-color','#191f26')
+    $.ajax({
+        type : 'POST',
+        url : "{{url_for('generate')}}",
+        data : {
+            summary:summary
+        },
+        success: function (response) 
+        {
+            $('#loadingImg').fadeOut(100);
+            $('#rightDiv').css('background-color','#000000')
+            sampleArray = JSON.parse(response)
+            for (let index = 0; index < sampleArray.length; index++) {
+                $('#sampleHolder').append('<p>'+sampleArray[index]+'</p>')
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            $('#loadingImg').fadeOut(100);
+            $('#rightDiv').css('background-color','#000000')
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    });
+}
+
+</script>
+{% endblock %}

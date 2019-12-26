@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Copy cat{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<h2>Write a seed word and tweets will be generated based on it</h2>
+<div class="row rounded-lg" style="overflow: hidden;">
+    <div class="col-md-6 bg-dark py-3 text-white-50">
+        <form>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="summary">Seed</label>
+                </div>
+                <div class="col-md-12">
+                    <input type="text"  id="seed" value="I am" class="form-control">
+                </div>
+                <div class="col-md-12">
+                    <label for="summary">Style</label>
+                </div>
+                <div class="col-md-12">
+                    <select id="style" class="form-control">
+                        <option value="0">Trump</option>
+                        <option value="1">Obama</option>
+                    </select>
+                </div>
+                <div class="col-md-12 py-3">
+                    <center><button class="btn btn-primary my-3" onclick="getTweet(event)">Generate</button></center>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6 color-black p-3 border-left" id="rightDiv">
+        <img id="loadingImg" src="{{ url_for('static', filename='imgs/loading.gif') }}" alt="" style="max-height: 100%;max-width: 100%;">
+        <div id="sampleHolder"  style="height: 100%;width: 100%;">
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript%}
+<script>
+$('#loadingImg').hide()
+function getTweet(event)
+{
+    event.preventDefault();
+    $('#sampleHolder').text("")
+    var seed = $('#seed').val()
+    var style = $('#style').find(":selected").text();
+    $('#loadingImg').show();
+    $('#rightDiv').css('background-color','#191f26')
+    $.ajax({
+        type : 'POST',
+        url : "{{url_for('generateCC')}}",
+        data : {
+            seed:seed,
+            style:style
+        },
+        success: function (response) 
+        {
+            $('#loadingImg').fadeOut(100);
+            $('#rightDiv').css('background-color','#000000')
+            sampleArray = JSON.parse(response)
+            for (let index = 0; index < sampleArray.length; index++) {
+                $('#sampleHolder').append('<p>'+sampleArray[index]+'</p>')
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            $('#loadingImg').fadeOut(100);
+            $('#rightDiv').css('background-color','#000000')
+            alert(xhr.status);
+            alert(thrownError);
+        }
+    });
+}
+</script>
+{% endblock %}
