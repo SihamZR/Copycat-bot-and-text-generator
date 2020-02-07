@@ -1,56 +1,51 @@
-{% extends 'base.html' %}
+{% extends 'layout.html' %}
+
 {% block title %}Generate Tweets{% endblock %}
 
 {% block header %}
-<center><h1 class="text-white  my-3">Generate Tweets</h1></center>
+<center><h1 class="text-white my-3">Generate Tweets</h1></center>
 {% endblock %}
 
 {% block content %}
-<div class="row rounded-lg my-3" style="overflow: hidden;">
-    <div class="col-md-4 offset-md-1 bg-dark py-3 text-white-50">
-        <h2>Write a seed word and tweets will be generated based on it</h2>
-        <form>
-            <div class="row">
-                <div class="col-md-12">
-                    <label for="summary">Seed</label>
-                </div>
-                <div class="col-md-12">
-                    <input type="text"  id="seed" value="I am" class="form-control">
-                </div>
-                <div class="col-md-12">
-                    <label for="summary">Style</label>
-                </div>
-                <div class="col-md-12">
-                    <select id="style" class="form-control">
-                        <option value="0">Trump</option>
-                        <option value="1">Obama</option>
-                    </select>
-                </div>
-                <div class="col-md-12 py-3">
-                    <center><button class="btn btn-primary my-3" onclick="getTweet(event)">Generate</button></center>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="col-md-4  offset-md-2 color-black p-3 border-left" id="rightDiv">
-        <img id="loadingImg" src="{{ url_for('static', filename='imgs/loading.gif') }}" alt="" style="max-height: 100%;max-width: 100%;">
-        <div id="sampleHolder" style="height: 100%;width: 100%;">
+<div class="row rounded-lg" style="overflow: hidden;">
+    <div class="col-md-4 offset-md-1 rounded-lg bg-dark py-3 text-white-50">
+        {% block pageTitle %}Generate Tweets{% endblock %}
+        {% block pageDesc %}Write a seed word and tweets will be generated based on it, using one of the two styles it learned (Trump, Obama){% endblock %}
+        {% block dataInput %}
+        <div class="control control-expanded">
+            <input id="seed" cols="40" rows="5" class="Tex" type="text" placeholder="Seed" class="form-control">
+        </div><br>
+        <div class="control control-expanded">
+            <select id="style">
+                <option value="0" style="padding:3px !important;">Trump</option>
+                <option value="1" style="padding:3px !important;">Obama</option>
+            </select>
         </div>
+        <div class="control">
+            <a class="button button-primary button-block button-shadow" href="#" onclick="getGeneratedText(event)">Generate</a>
+        </div>
+        {% endblock %}
+        {% block genData %}
+            <p id="sampleHolder" class="text-white">
+            </p>
+        {% endblock %}                   
     </div>
 </div>
 {% endblock %}
 
 {% block javascript%}
 <script>
-$('#loadingImg').hide()
-function getTweet(event)
+$('#sampleHolder').hide()
+$('#sampleHolder').show(2500)
+//$('#divID').css("background", "white");  
+//$('#divID').css("background", "url( {{ url_for('static', filename='imgs/loading.gif') }} ) no-repeat center;");  
+function getGeneratedText(event)
 {
     event.preventDefault();
     $('#sampleHolder').text("")
     var seed = $('#seed').val()
     var style = $('#style').find(":selected").text();
-    $('#loadingImg').show();
-    $('#rightDiv').css('background-color','#191f26')
+    $("#contentHolder").addClass('loadingImgBackground').removeClass('normalImgBackground');
     $.ajax({
         type : 'POST',
         url : "{{url_for('generateCC')}}",
@@ -60,20 +55,19 @@ function getTweet(event)
         },
         success: function (response) 
         {
-            $('#loadingImg').fadeOut(100);
-            $('#rightDiv').css('background-color','#000000')
+            $("#contentHolder").addClass('normalImgBackground').removeClass('loadingImgBackground');
             sampleArray = JSON.parse(response)
             for (let index = 0; index < sampleArray.length; index++) {
                 $('#sampleHolder').append('<p>'+sampleArray[index]+'</p>')
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            $('#loadingImg').fadeOut(100);
-            $('#rightDiv').css('background-color','#000000')
+            $("#contentHolder").addClass('normalImgBackground').removeClass('loadingImgBackground');
             alert(xhr.status);
             alert(thrownError);
         }
     });
 }
+
 </script>
 {% endblock %}

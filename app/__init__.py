@@ -3,7 +3,7 @@ import os
 from flask import Flask,render_template,request
 from flask_bootstrap import Bootstrap
 import app.controllers.controllerManager as cm
-
+import json
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -32,6 +32,9 @@ def create_app(test_config=None):
     @app.route('/')
     def index():
         return render_template("index.html",value='0')
+    @app.route('/holy')
+    def holy():
+        return render_template("holy.html",value='0')
 
     @app.route('/copycat')
     def copycat():

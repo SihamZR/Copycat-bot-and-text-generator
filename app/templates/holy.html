@@ -3,17 +3,23 @@
 {% block title %}Generate Text{% endblock %}
 
 {% block header %}
-<center><h1 class="text-white my-3">Generate Content</h1></center>
+<center><h1 class="text-white my-3">Generate Tweets</h1></center>
 {% endblock %}
 
 {% block content %}
 <div class="row rounded-lg" style="overflow: hidden;">
     <div class="col-md-4 offset-md-1 rounded-lg bg-dark py-3 text-white-50">
-        {% block pageTitle %}Generate Text{% endblock %}
-        {% block pageDesc %}Insert a promt and the model will expand on it{% endblock %}
+        {% block pageTitle %}Generate Tweets{% endblock %}
+        {% block pageDesc %}Write a seed word and tweets will be generated based on it, using one of the two styles it learned (Trump, Obama){% endblock %}
         {% block dataInput %}
         <div class="control control-expanded">
-            <textarea id="sumText" cols="40" rows="5" class="Tex" type="email" name="email" placeholder="Your best prompt"></textarea>
+            <input id="seed" cols="40" rows="5" class="Tex" type="text" placeholder="Seed" class="form-control">
+        </div><br>
+        <div class="control control-expanded">
+            <select id="style">
+                <option value="0">Trump</option>
+                <option value="1">Obama</option>
+            </select>
         </div>
         <div class="control">
             <a class="button button-primary button-block button-shadow" href="#" onclick="getGeneratedText(event)">Generate</a>
@@ -37,32 +43,26 @@ function getGeneratedText(event)
 {
     event.preventDefault();
     $('#sampleHolder').text("")
-    var summary = $('#sumText').val()
-    
+    var seed = $('#seed').val()
+    var style = $('#style').find(":selected").text();
     $("#contentHolder").addClass('loadingImgBackground').removeClass('normalImgBackground');
-    //$('#loadingImg').show();
-    //$('#rightDiv').css('background-color','#191f26')
     $.ajax({
         type : 'POST',
-        url : "{{url_for('generate')}}",
+        url : "{{url_for('generateCC')}}",
         data : {
-            summary:summary
+            seed:seed,
+            style:style
         },
         success: function (response) 
         {
             $("#contentHolder").addClass('normalImgBackground').removeClass('loadingImgBackground');
-            //$('#loadingImg').fadeOut(100);
-            //$('#rightDiv').css('background-color','#000000')
             sampleArray = JSON.parse(response)
-            //alert (response)
             for (let index = 0; index < sampleArray.length; index++) {
                 $('#sampleHolder').append('<p>'+sampleArray[index]+'</p>')
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
             $("#contentHolder").addClass('normalImgBackground').removeClass('loadingImgBackground');
-            //$('#loadingImg').fadeOut(100);
-            //$('#rightDiv').css('background-color','#000000')
             alert(xhr.status);
             alert(thrownError);
         }

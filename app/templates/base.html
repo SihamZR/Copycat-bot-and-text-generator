@@ -11,32 +11,8 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-
-
-    <nav class="navbar navbar-expand-lg navbar-dark color-black">
-        <a class="navbar-brand" href="/">ContentGen</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item {% if value=='0' %} active {% endif %}">
-                    
-                    <a class="nav-link" href="/">Home </a>
-                </li>
-                <li class="nav-item {% if value=='2' %} active {% endif %}">
-                    <a class="nav-link" href="{{ url_for('contgen') }}">Content Generation</a>
-                </li>
-                <li class="nav-item {% if value=='1' %} active {% endif %}">
-                    <a class="nav-link" href="{{ url_for('copycat') }}">Tweet Generation</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
     {% block header %}{% endblock %}
-
-    <div class="container-fluid">
+    <div class="container-fluid bg-dark px-0" style="overflow:hidden;">
         {% block content %}{% endblock %}
     </div>
 
